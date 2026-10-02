@@ -106,6 +106,46 @@ async function handleRequest(
     return;
   }
 
+  if (url.pathname === "/" && req.method === "GET") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.end(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>NotebookLM MCP Server</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 640px; margin: 0 auto; padding: 3rem 1.5rem; line-height: 1.6; }
+  h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  .badge { display: inline-block; background: #4caf50; color: #fff; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+  code { background: rgba(127,127,127,.15); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  pre { background: rgba(127,127,127,.12); padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  .muted { color: rgba(127,127,127,.8); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+  <h1>NotebookLM MCP Server <span class="badge">v2.0.0</span></h1>
+  <p class="muted">Streamable-HTTP transport — running and ready.</p>
+  <h2>Endpoints</h2>
+  <ul>
+    <li><code>POST /mcp</code> — MCP JSON-RPC endpoint (requires session init)</li>
+    <li><code>GET /healthz</code> — liveness probe</li>
+  </ul>
+  <h2>Connect from an MCP client</h2>
+  <pre>{
+  "mcpServers": {
+    "notebooklm": {
+      "url": "http://&lt;host&gt;:3000/mcp"
+    }
+  }
+}</pre>
+  <p class="muted">See README.md for full documentation.</p>
+</body>
+</html>`);
+    return;
+  }
+
   if (url.pathname !== "/mcp") {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "not found", expected: "/mcp" }));

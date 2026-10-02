@@ -1,0 +1,22 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/healthz",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "NOTEBOOK_URL",
+      "description": "Default NotebookLM notebook URL (optional)",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "LOGIN_EMAIL",
+      "description": "Google email for NotebookLM auto-login (optional)",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "LOGIN_PASSWORD",
+      "description": "Google password for NotebookLM auto-login (optional)",
+      "requiredAtBoot": false
+    }
+  ]
+}

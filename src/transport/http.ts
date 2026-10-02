@@ -106,6 +106,27 @@ async function handleRequest(
     return;
   }
 
+  if (url.pathname === "/" && req.method === "GET") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.end(
+      [
+        "<!doctype html>",
+        '<html lang="en"><head><meta charset="utf-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1">',
+        "<title>NotebookLM MCP Server</title>",
+        "<style>body{font-family:system-ui,sans-serif;background:#0b0f17;color:#e6edf3;display:grid;place-items:center;min-height:100vh;margin:0}",
+        "main{text-align:center;padding:2rem}h1{font-size:1.4rem;margin:0 0 .5rem}code{background:#161b27;padding:.2rem .5rem;border-radius:.4rem;font-size:.9rem}",
+        "p{color:#8b949e;margin:.4rem 0}</style></head><body><main>",
+        "<h1>✅ NotebookLM MCP Server v2.0.0</h1>",
+        "<p>Streamable-HTTP transport is running.</p>",
+        "<p>MCP endpoint: <code>POST /mcp</code></p>",
+        "<p>Liveness probe: <code>GET /healthz</code></p>",
+        "</main></body></html>",
+      ].join("\n")
+    );
+    return;
+  }
+
   if (url.pathname !== "/mcp") {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "not found", expected: "/mcp" }));
